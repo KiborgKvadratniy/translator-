@@ -1,0 +1,154 @@
+import time
+import sounddevice as sd
+import numpy as np
+import scipy.io.wavfile as wav
+import speech_recognition as sr
+import random
+from googletrans import Translator
+duration = 5
+sample_rate = 44100
+correct = +1 
+wrong = +1
+words_by_level = {
+    "easy": ["кот", "яблоко", "молоко", "дом"],
+    "medium": ["банан", "школа", "друг", "окно", "жёлтый"],
+    "hard": ["технология", "университет", "информация", "произношение", "воображение"]}
+
+langs=['es', 'en', 'pt', 'id', 'pl', 'it', 'tr']
+
+
+
+
+print("Тебе предстоит переводить слова вслух  на выбранный тобой язык за отведённое время ")
+lang = input("Введите код языка для перевода ('en' — английский, 'es' — испанский, pt- португальский, id- индонезийский, pl- польский, it- итальянский, tr- турецкий): ")
+
+
+if lang in langs:
+    print('Язык выбран, раунд начнётся через...')
+
+for i in range(5, 0, -1):
+    print(i)
+    time.sleep(1)
+
+print("Раунд начался")
+time.sleep(2)
+print('Первый уровень: лёгко')
+for i in range(3):
+
+    ru_word = random.choice(words_by_level["easy"])
+    print(ru_word, '-переведите это слово')
+    recording = sd.rec(
+            int(duration * sample_rate),
+            samplerate=sample_rate,
+            channels=1,
+            dtype='int16')
+    sd.wait()
+
+    wav.write('output.wav', sample_rate, recording)
+    print('Запись завершена, распознаём речь...')
+
+    recognizer = sr.Recognizer()
+    with sr.AudioFile('output.wav') as source:
+            audio = recognizer.record(source)
+
+    try:
+            text = recognizer.recognize_google(audio, language='ru-RU').lower()
+            print('Ты говорил:', text)
+            translator = Translator()
+            translated = translator.translate(ru_word, dest=lang).text
+            if text == translated:
+                print('Перевод:', translated, 'Всё верно!')
+
+            else:
+                print('Неверно') 
+
+    except sr.UnknownValueError:
+            print('Не удалось распознать речь или же речи не было в записи.')
+    except sr.RequestError as e:
+            print(f'Ошибка сервиса: {e}')
+
+
+for i in range(5, 0, -1):
+    print(i)
+    time.sleep(1)
+
+print("Новый раунд начался!")
+time.sleep(2)
+print('Второй уровень: средний')
+for i in range(3):
+
+    ru_word = random.choice(words_by_level["medium"])
+    print(ru_word, '-переведите это слово')
+    recording = sd.rec(
+            int(duration * sample_rate),
+            samplerate=sample_rate,
+            channels=1,
+            dtype='int16')
+    sd.wait()
+
+    wav.write('output.wav', sample_rate, recording)
+    print('Запись завершена, распознаём речь...')
+
+    recognizer = sr.Recognizer()
+    with sr.AudioFile('output.wav') as source:
+            audio = recognizer.record(source)
+
+    try:
+            text = recognizer.recognize_google(audio, language='ru-RU').lower()
+            print('Ты говорил:', text)
+            translator = Translator()
+            translated = translator.translate(ru_word, dest=lang).text
+            if text == translated:
+                print('Перевод:', translated, 'Всё верно!')
+
+            else:
+                print('Неверно') 
+
+    except sr.UnknownValueError:
+            print('Не удалось распознать речь или же речи не было в записи.')
+    except sr.RequestError as e:
+            print(f'Ошибка сервиса: {e}')
+
+
+for i in range(5, 0, -1):
+    print(i)
+    time.sleep(1)
+
+print("Последний раунд начался!")
+time.sleep(2)
+print('Второй уровень: сложный')
+for i in range(3):
+
+    ru_word = random.choice(words_by_level["hard"])
+    print(ru_word, '-переведите это слово')
+    recording = sd.rec(
+            int(duration * sample_rate),
+            samplerate=sample_rate,
+            channels=1,
+            dtype='int16')
+    sd.wait()
+
+    wav.write('output.wav', sample_rate, recording)
+    print('Запись завершена, распознаём речь...')
+
+    recognizer = sr.Recognizer()
+    with sr.AudioFile('output.wav') as source:
+            audio = recognizer.record(source)
+
+    try:
+            text = recognizer.recognize_google(audio, language='ru-RU').lower()
+            print('Ты говорил:', text)
+            translator = Translator()
+            translated = translator.translate(ru_word, dest=lang).text
+            if text == translated:
+                print('Перевод:', translated, 'Всё верно!')
+
+            else:
+                print('Неверно') 
+
+    except sr.UnknownValueError:
+            print('Не удалось распознать речь или же речи не было в записи.')
+    except sr.RequestError as e:
+            print(f'Ошибка сервиса: {e}')
+
+print('Верные ответы:', correct, 'Неверные ответы:', wrong)
