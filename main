@@ -58,10 +58,10 @@ for i in range(3):
             translated = translator.translate(ru_word, dest=lang).text
             if text == translated:
                 print('Перевод:', translated, 'Всё верно!')
-
+                correct+=1
             else:
                 print('Неверно') 
-
+                wrong+=1
     except sr.UnknownValueError:
             print('Не удалось распознать речь или же речи не было в записи.')
     except sr.RequestError as e:
@@ -100,9 +100,10 @@ for i in range(3):
             translated = translator.translate(ru_word, dest=lang).text
             if text == translated:
                 print('Перевод:', translated, 'Всё верно!')
-
+                correct+=1
             else:
                 print('Неверно') 
+                wrong+=1 
 
     except sr.UnknownValueError:
             print('Не удалось распознать речь или же речи не было в записи.')
@@ -142,9 +143,10 @@ for i in range(3):
             translated = translator.translate(ru_word, dest=lang).text
             if text == translated:
                 print('Перевод:', translated, 'Всё верно!')
-
+                correct+=1
             else:
                 print('Неверно') 
+                wrong+=1 
 
     except sr.UnknownValueError:
             print('Не удалось распознать речь или же речи не было в записи.')
